@@ -19,6 +19,3 @@ while True:
     if left_bumper.pressed or right_bumper.pressed:
         left_motor.run(0)
         right_motor.run(0)
-    else: 
-        left_motor.run(SPEED)
-        right_motor.run(SPEED)

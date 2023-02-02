@@ -10,16 +10,14 @@ ev3.screen.draw_text(0, 0, "UltrasonicAvoid")
 
 left_motor = Motor(Port.A)
 right_motor = Motor(Port.D)
-ev3sonar = UltrasonicSensor(Port.S4)
+ev3sonar = UltrasonicSensor(Port.S2)
 
 SPEED = 360
-REFRESH = 10000
-
 left_motor.run(SPEED)
 right_motor.run(SPEED)
 
 while True:
     if ev3sonar.distance < 10:
-        left_bumper.run(SPEED)
-        right_bumper.run(0)
+        left_motor.run(SPEED)
+        right_motor.run(0)
         time.wait(5)
