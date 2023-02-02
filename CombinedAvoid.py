@@ -1,8 +1,7 @@
-import time
+#!/usr/bin/env pybricks-micropython
 from pybricks.hubs import EV3Brick
-from pybricks.parameters import Port, Stop, Direction, Button, Color
-from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
-                                 InfraredSensor, UltrasonicSensor, GyroSensor)
+from pybricks.parameters import Port
+from pybricks.ev3devices import (Motor, TouchSensor, UltrasonicSensor)
                  
 ev3 = EV3Brick()
 ev3.screen.clear()
@@ -18,17 +17,21 @@ SPEED = 360
 left_motor.run(SPEED)
 right_motor.run(SPEED)
 
-while True:
-    pressed = ev3.buttons.pressed()
-    if ev3sonar.distance < 10:
+while True:    
+    if (not ev3sonar.distance() < 75 or not left_bumper.pressed() or not right_bumper.pressed()):
         left_motor.run(SPEED)
-        right_motor.run(0)
-        time.wait(5)
-    elif (ev3sonar.distance < 10 and left_bumper.pressed):
-        left_motor.run(0)
-        right_motor.run(SPEED)
-        time.wait(5)
-    elif (ev3sonar.distance < 10 and right_bumper.pressed):
-        left_motor.run(SPEED)
-        right_motor.run(0)
-        time.wait(5)
+        right_motor.run(SPEED)  
+    elif (ev3sonar.distance() < 75 or left_bumper.pressed()):
+        for x in range(0,1000):
+            left_motor.run(-SPEED)
+            right_motor.run(-SPEED)
+        for x in range(0,1000):
+            left_motor.run(-SPEED)
+            right_motor.run(SPEED)
+    elif (ev3sonar.distance() < 75 or right_bumper.pressed()):
+        for x in range(0,1000):
+            left_motor.run(-SPEED)
+            right_motor.run(-SPEED)
+        for x in range(0,1000):
+            left_motor.run(-SPEED)
+            right_motor.run(SPEED)

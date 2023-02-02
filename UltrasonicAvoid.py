@@ -1,8 +1,7 @@
-import time
+#!/usr/bin/env pybricks-micropython
 from pybricks.hubs import EV3Brick
-from pybricks.parameters import Port, Stop, Direction, Button, Color
-from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
-                                 InfraredSensor, UltrasonicSensor, GyroSensor)
+from pybricks.parameters import Port
+from pybricks.ev3devices import (Motor, UltrasonicSensor)
 
 ev3 = EV3Brick()
 ev3.screen.clear()
@@ -17,7 +16,13 @@ left_motor.run(SPEED)
 right_motor.run(SPEED)
 
 while True:
-    if ev3sonar.distance < 10:
+    if not ev3sonar.distance() < 75:
         left_motor.run(SPEED)
-        right_motor.run(0)
-        time.wait(5)
+        right_motor.run(SPEED)  
+    elif ev3sonar.distance() < 75:
+        for x in range(0,1000):
+            left_motor.run(-SPEED)
+            right_motor.run(-SPEED)
+        for x in range(0,1000):
+            left_motor.run(-SPEED)
+            right_motor.run(SPEED)
